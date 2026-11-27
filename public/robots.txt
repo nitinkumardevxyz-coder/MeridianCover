@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://meridiancover.t20tycoon.com/sitemap.xml

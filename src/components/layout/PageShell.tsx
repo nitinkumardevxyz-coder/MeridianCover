@@ -22,42 +22,50 @@ export function PageShell({
   return (
     <div className="max-w-[1380px] mx-auto px-4 md:px-6 py-4 md:py-6">
       <div className="grid grid-cols-1 xl:grid-cols-[160px_minmax(0,1fr)_160px] xl:gap-6 items-start">
-        {/* Left Sticky Sidebar Rail (>= 1280px): Quick Links + 160x300 Vertical Banner */}
+        {/* Left Sidebar Rail (>= 1280px): Sticky TOC + 160x300 + Lower 160x600 */}
         <aside
-          aria-label="Section quick links and vertical advertisement"
-          className="hidden xl:block sticky top-[88px] space-y-6"
+          aria-label="Section quick links and left rail advertisements"
+          className="hidden xl:block space-y-6"
         >
-          <nav
-            aria-label="On this page"
-            className="bg-white border border-[#DDE5F0] rounded-xl p-3.5"
-          >
-            <p className="font-display text-xs font-semibold text-[#0B1F3A] mb-2.5">
-              On This Page
-            </p>
-            <ul className="space-y-1.5">
-              {tocLinks.map((link) => (
-                <li key={link.id}>
-                  <a
-                    href={`#${link.id}`}
-                    className="block text-xs text-[#4B5D75] hover:text-[#0E9F6E] transition-colors leading-snug py-0.5"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="sticky top-[88px] space-y-6">
+            <nav
+              aria-label="On this page"
+              className="bg-white border border-[#DDE5F0] rounded-xl p-3.5"
+            >
+              <p className="font-display text-xs font-semibold text-[#0B1F3A] mb-2.5">
+                On This Page
+              </p>
+              <ul className="space-y-1.5">
+                {tocLinks.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href={`#${link.id}`}
+                      className="block text-xs text-[#4B5D75] hover:text-[#0E9F6E] transition-colors leading-snug py-0.5"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <AdSlot
+              format="160x300"
+              slotId={`${pageSlug}-left-160x300`}
+              className="my-0!"
+            />
+          </div>
 
           <AdSlot
-            format="160x300"
-            slotId={`${pageSlug}-left-160x300`}
+            format="160x600"
+            slotId={`${pageSlug}-left-160x600`}
             className="my-0!"
           />
         </aside>
 
         {/* Center Primary Content Column */}
         <main className="min-w-0 w-full">
-          {/* Slot 1 Leaderboard (Desktop/Tablet) & Mobile Top Banner */}
+          {/* Slot 1 Top Leaderboard (Desktop/Tablet) & Mobile Top Banner */}
           <AdSlot
             format="728x90"
             slotId={`${pageSlug}-top-728x90`}
@@ -71,22 +79,42 @@ export function PageShell({
 
           <div className="space-y-10 md:space-y-12">{children}</div>
 
-          {/* Slot 3 Pre-Footer Leaderboard (Desktop/Tablet) */}
-          <AdSlot
-            format="728x90"
-            slotId={`${pageSlug}-prefooter-728x90`}
-            className="mt-10! mb-2!"
-          />
+          {/* Pre-Footer High-Viewability Ad Cluster across all devices */}
+          <div className="mt-10 space-y-4">
+            <AdSlot
+              format="300x250"
+              slotId={`${pageSlug}-prefooter-300x250`}
+              className="my-0!"
+            />
+            <AdSlot
+              format="728x90"
+              slotId={`${pageSlug}-prefooter-728x90`}
+              className="my-0!"
+            />
+            <AdSlot
+              format="320x50"
+              slotId={`${pageSlug}-prefooter-320x50`}
+              className="my-0!"
+            />
+          </div>
         </main>
 
-        {/* Right Sticky Sidebar Rail (>= 1280px): 160x600 Wide Skyscraper */}
+        {/* Right Sidebar Rail (>= 1280px): Sticky 160x600 + Lower 160x300 */}
         <aside
-          aria-label="Sticky skyscraper advertisement"
-          className="hidden xl:block sticky top-[88px]"
+          aria-label="Right rail skyscraper advertisements"
+          className="hidden xl:block space-y-6"
         >
+          <div className="sticky top-[88px]">
+            <AdSlot
+              format="160x600"
+              slotId={`${pageSlug}-right-160x600`}
+              className="my-0!"
+            />
+          </div>
+
           <AdSlot
-            format="160x600"
-            slotId={`${pageSlug}-right-160x600`}
+            format="160x300"
+            slotId={`${pageSlug}-right-160x300`}
             className="my-0!"
           />
         </aside>

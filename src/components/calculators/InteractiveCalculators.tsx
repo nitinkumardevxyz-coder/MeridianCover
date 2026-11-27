@@ -531,6 +531,8 @@ export function HealthPremiumCalculator() {
               className="w-full"
             />
           </div>
+
+          <AdSlot format="300x250" slotId="calc-health-300x250" className="my-0!" />
         </div>
       </div>
     </section>
@@ -757,6 +759,8 @@ export function MotorIdvCalculator() {
             variant="primary"
             className="w-full"
           />
+
+          <AdSlot format="300x250" slotId="calc-motor-300x250" className="my-0!" />
         </div>
       </div>
     </section>

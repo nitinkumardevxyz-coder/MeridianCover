@@ -52,6 +52,8 @@ export function TravelHomeInsurancePage() {
         </div>
       </section>
 
+      <AdSlot format="468x60" slotId="travel-home-hero-468x60" />
+
       {/* Dual-Tab Split Long-Form Guide */}
       <section id="th-tabs" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -292,6 +294,7 @@ export function TravelHomeInsurancePage() {
       </section>
 
       <AdSlot format="468x60" slotId="travel-home-468x60" />
+      <AdSlot format="300x250" slotId="travel-home-pre-faq-300x250" />
 
       {/* FAQs */}
       <section id="th-faqs" className="space-y-4">

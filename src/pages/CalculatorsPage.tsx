@@ -57,6 +57,10 @@ export function CalculatorsPage() {
       {/* Calculator 3: Motor */}
       <MotorIdvCalculator />
 
+      <AdSlot format="468x60" slotId="calc-motor-468x60" />
+      <AdSlot format="728x90" slotId="calc-matrix-728x90" />
+      <AdSlot format="320x50" slotId="calc-matrix-320x50" />
+
       {/* Side-by-side Plan Comparison Matrix */}
       <section
         id="plan-compare-matrix"

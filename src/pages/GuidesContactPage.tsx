@@ -185,6 +185,7 @@ export function GuidesContactPage() {
                 </>
               )}
               {idx === 2 && <AdSlot format="native" slotId="guides-native" />}
+              {idx === 3 && <AdSlot format="300x250" slotId="guides-article4-300x250" />}
             </div>
           );
         })}
@@ -211,7 +212,7 @@ export function GuidesContactPage() {
                 <strong>Advisory Desk Hours:</strong> Mon–Sat, 8:00 AM – 8:00 PM
               </p>
               <p>
-                <strong>Editorial &amp; Support:</strong> support@meridiancover.example
+                <strong>Editorial &amp; Support:</strong> support@meridiancover.t20tycoon.com
               </p>
               <p>
                 <strong>Response SLA:</strong> Within 1 business day
@@ -382,6 +383,8 @@ export function GuidesContactPage() {
           </form>
         </div>
       </section>
+
+      <AdSlot format="468x60" slotId="guides-compliance-468x60" />
 
       {/* Compliance: Privacy Policy, Disclaimer & Terms */}
       <section

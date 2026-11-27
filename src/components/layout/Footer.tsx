@@ -7,7 +7,8 @@ interface FooterProps {
 }
 
 export function Footer({ onNavigate, hasStickyMobileBar }: FooterProps) {
-  const smartlinkUrl = getAdsterraSmartlinkUrl();
+  const primarySmartlinkUrl = getAdsterraSmartlinkUrl('primary');
+  const secondarySmartlinkUrl = getAdsterraSmartlinkUrl('secondary');
 
   const linkClass =
     'text-sm text-slate-300 hover:text-white transition-colors block py-1';
@@ -29,7 +30,7 @@ export function Footer({ onNavigate, hasStickyMobileBar }: FooterProps) {
             </p>
             <div className="mt-4">
               <a
-                href={smartlinkUrl}
+                href={primarySmartlinkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-4 py-2 text-xs font-semibold bg-[#0E9F6E] hover:bg-[#0B875D] text-white rounded-lg transition-colors"
@@ -106,7 +107,7 @@ export function Footer({ onNavigate, hasStickyMobileBar }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={smartlinkUrl}
+                  href={secondarySmartlinkUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={linkClass}
@@ -160,7 +161,7 @@ export function Footer({ onNavigate, hasStickyMobileBar }: FooterProps) {
               </li>
             </ul>
             <p className="mt-4 text-xs text-slate-400 leading-relaxed">
-              Advisory Desk: Mon–Sat 8:00 AM – 8:00 PM · support@meridiancover.example
+              Advisory Desk: Mon–Sat 8:00 AM – 8:00 PM · support@meridiancover.t20tycoon.com
             </p>
           </div>
         </div>

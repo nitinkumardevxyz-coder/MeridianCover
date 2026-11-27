@@ -28,10 +28,22 @@ export default function App() {
 
   const syncDocumentHead = useCallback((page: PageSlug) => {
     const meta = PAGE_METADATA[page];
+    const pageUrl =
+      page === 'home'
+        ? 'https://meridiancover.t20tycoon.com/'
+        : `https://meridiancover.t20tycoon.com${meta.htmlPath}`;
     document.title = meta.title;
     const descTag = document.querySelector('meta[name="description"]');
     if (descTag) {
       descTag.setAttribute('content', meta.description);
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', pageUrl);
+    }
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+      ogUrl.setAttribute('content', pageUrl);
     }
   }, []);
 

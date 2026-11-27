@@ -389,6 +389,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
+      <AdSlot format="468x60" slotId="home-est-468x60" />
+
       {/* Slot 2 Mid-Page Leaderboard & Mobile Banner */}
       <AdSlot format="728x90" slotId="home-mid-728x90" />
       <AdSlot format="320x50" slotId="home-mid-320x50" />
@@ -607,6 +609,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
           ))}
         </div>
       </section>
+
+      <AdSlot format="300x250" slotId="home-testimonials-300x250" />
 
       {/* FAQ Accordion */}
       <section id="home-faqs" className="space-y-4">

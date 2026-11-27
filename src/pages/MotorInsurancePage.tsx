@@ -191,6 +191,8 @@ export function MotorInsurancePage() {
         </div>
       </section>
 
+      <AdSlot format="468x60" slotId="motor-hero-468x60" />
+
       {/* Third-Party vs Comprehensive vs Zero Depreciation Table */}
       <section id="motor-comparison" className="space-y-4">
         <div>
@@ -358,6 +360,8 @@ export function MotorInsurancePage() {
 
         <AdSlot format="native" slotId="motor-native" />
       </section>
+
+      <AdSlot format="300x250" slotId="motor-pre-faq-300x250" />
 
       {/* FAQs */}
       <section id="motor-faqs" className="space-y-4">

@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { AD_FORMAT_META, buildBannerSrcDoc } from '../../config/adsConfig';
 
 interface StickyMobileAdBarProps {
   visible: boolean;
@@ -7,22 +8,24 @@ interface StickyMobileAdBarProps {
 }
 
 export function StickyMobileAdBar({ visible, onDismiss }: StickyMobileAdBarProps) {
-  const commentHostRef = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(max-width: 767px)').matches;
+  });
 
   useEffect(() => {
-    const host = commentHostRef.current;
-    if (!host) return;
-    const hasComment = Array.from(host.childNodes).some(
-      (n) => n.nodeType === Node.COMMENT_NODE
-    );
-    if (!hasComment) {
-      host.prepend(
-        document.createComment(' PASTE ADSTERRA 320x50 STICKY MOBILE BANNER CODE HERE ')
-      );
-    }
-  }, [visible]);
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
 
   if (!visible) return null;
+
+  const meta = AD_FORMAT_META['320x50'];
+  const srcDoc = buildBannerSrcDoc(meta);
 
   return (
     <div
@@ -31,19 +34,30 @@ export function StickyMobileAdBar({ visible, onDismiss }: StickyMobileAdBarProps
       className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur border-t border-[#DDE5F0] px-2.5 py-1 flex items-center justify-center gap-1.5 shadow-sm"
     >
       <div
-        ref={commentHostRef}
-        className="ad-placeholder-box flex-row gap-2 shrink-0"
+        className="flex items-center justify-center rounded border border-[#E2E8F0] bg-[#F8FAFD] overflow-hidden shrink-0"
         style={{
           minWidth: '320px',
           width: '320px',
           minHeight: '50px',
           height: '50px',
-          padding: '4px 8px',
         }}
       >
-        <span className="font-mono-num text-[11px] font-semibold text-[#0B1F3A]">
-          ADSTERRA 320x50 SLOT
-        </span>
+        {isMobile && srcDoc ? (
+          <iframe
+            title="Adsterra Sticky Mobile 320x50 Advertisement"
+            srcDoc={srcDoc}
+            width={320}
+            height={50}
+            scrolling="no"
+            frameBorder="0"
+            className="border-0 block"
+            style={{ width: '320px', height: '50px' }}
+          />
+        ) : (
+          <span className="font-mono-num text-[11px] font-semibold text-[#0B1F3A]">
+            ADSTERRA 320x50 SLOT
+          </span>
+        )}
       </div>
       <button
         type="button"

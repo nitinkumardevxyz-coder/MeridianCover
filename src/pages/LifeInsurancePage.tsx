@@ -159,6 +159,8 @@ export function LifeInsurancePage() {
         </div>
       </section>
 
+      <AdSlot format="468x60" slotId="life-hero-468x60" />
+
       {/* Term vs Whole Life vs ULIP vs Endowment Comparison Table */}
       <section id="life-plans-table" className="space-y-4">
         <div>
@@ -326,6 +328,8 @@ export function LifeInsurancePage() {
         <AdSlot format="468x60" slotId="life-csr-468x60" />
         <AdSlot format="native" slotId="life-native" />
       </section>
+
+      <AdSlot format="300x250" slotId="life-pre-faq-300x250" />
 
       {/* Life FAQs */}
       <section id="life-faqs" className="space-y-4">

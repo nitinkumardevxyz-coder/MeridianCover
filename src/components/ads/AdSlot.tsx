@@ -1,5 +1,9 @@
-import { useEffect, useRef } from 'react';
-import { AD_FORMAT_META, AdFormat } from '../../config/adsConfig';
+import { useEffect, useRef, useState } from 'react';
+import {
+  AD_FORMAT_META,
+  AdFormat,
+  buildBannerSrcDoc,
+} from '../../config/adsConfig';
 
 interface AdSlotProps {
   format: AdFormat;
@@ -17,21 +21,65 @@ const RESPONSIVE_VISIBILITY: Record<AdFormat, string> = {
   native: 'flex flex-col w-full',
 };
 
-export function AdSlot({ format, slotId, className = '' }: AdSlotProps) {
-  const meta = AD_FORMAT_META[format];
-  const commentHostRef = useRef<HTMLDivElement | null>(null);
+const BREAKPOINT_QUERIES: Record<AdFormat, string | null> = {
+  '728x90': '(min-width: 768px)',
+  '320x50': '(max-width: 767px)',
+  '468x60': '(min-width: 768px)',
+  '300x250': null,
+  '160x600': '(min-width: 1280px)',
+  '160x300': '(min-width: 1280px)',
+  native: null,
+};
+
+function useMatchesBreakpoint(format: AdFormat): boolean {
+  const query = BREAKPOINT_QUERIES[format];
+  const [matches, setMatches] = useState<boolean>(() => {
+    if (!query || typeof window === 'undefined') return true;
+    return window.matchMedia(query).matches;
+  });
 
   useEffect(() => {
-    const host = commentHostRef.current;
-    if (!host) return;
-    const commentText = ` ${meta.commentTag}${slotId ? ` (${slotId})` : ''} `;
-    const existing = Array.from(host.childNodes).find(
-      (node) => node.nodeType === Node.COMMENT_NODE
-    );
-    if (!existing) {
-      host.prepend(document.createComment(commentText));
+    if (!query || typeof window === 'undefined') {
+      setMatches(true);
+      return;
     }
-  }, [meta.commentTag, slotId]);
+    const mql = window.matchMedia(query);
+    const update = () => setMatches(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, [query]);
+
+  return matches;
+}
+
+export function AdSlot({ format, slotId, className = '' }: AdSlotProps) {
+  const meta = AD_FORMAT_META[format];
+  const isBreakpointActive = useMatchesBreakpoint(format);
+  const nativeHostRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (format !== 'native' || !isBreakpointActive) return;
+    const host = nativeHostRef.current;
+    if (!host) return;
+
+    // Clear previous render on route change and inject Adsterra Native Banner script
+    host.innerHTML = '';
+    const container = document.createElement('div');
+    container.id = meta.containerId || 'container-0d2b03e8e9abaebc5c413d0b1242dff5';
+    host.appendChild(container);
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.setAttribute('fetchpriority', 'high');
+    script.setAttribute('data-cfasync', 'false');
+    script.src = meta.scriptSrc;
+    host.appendChild(script);
+
+    return () => {
+      host.innerHTML = '';
+    };
+  }, [format, isBreakpointActive, meta.containerId, meta.scriptSrc, slotId]);
 
   const visibilityClass = RESPONSIVE_VISIBILITY[format];
 
@@ -45,58 +93,15 @@ export function AdSlot({ format, slotId, className = '' }: AdSlotProps) {
       >
         <span className="ad-caption">Advertisement</span>
         <div
-          ref={commentHostRef}
-          className="ad-placeholder-box w-full max-w-full"
+          ref={nativeHostRef}
+          className="w-full max-w-full rounded-xl border border-[#DDE5F0] bg-[#F8FAFD] p-3 overflow-hidden"
           style={{ minHeight: `${meta.minHeight}px` }}
-        >
-          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 text-left p-2">
-            <div className="border border-dashed border-[#CBD8E8] rounded bg-white/80 p-4 flex flex-col justify-between min-h-[180px]">
-              <span className="text-[11px] uppercase tracking-wider text-[#64748B] font-medium">
-                Sponsored Comparison
-              </span>
-              <div className="my-2">
-                <p className="font-display font-semibold text-sm text-[#0B1F3A]">
-                  {meta.label} · Card 1
-                </p>
-                <p className="text-xs text-[#4B5D75] mt-1">
-                  Native recommendation slot styled to match editorial policy cards without layout shift.
-                </p>
-              </div>
-              <span className="text-xs font-medium text-[#0E9F6E]">Native Ad Container</span>
-            </div>
-            <div className="border border-dashed border-[#CBD8E8] rounded bg-white/80 p-4 flex flex-col justify-between min-h-[180px]">
-              <span className="text-[11px] uppercase tracking-wider text-[#64748B] font-medium">
-                Sponsored Offer
-              </span>
-              <div className="my-2">
-                <p className="font-display font-semibold text-sm text-[#0B1F3A]">
-                  {meta.label} · Card 2
-                </p>
-                <p className="text-xs text-[#4B5D75] mt-1">
-                  Paste your Adsterra Native Banner widget script inside this container block.
-                </p>
-              </div>
-              <span className="text-xs font-medium text-[#0E9F6E]">Native Ad Container</span>
-            </div>
-            <div className="border border-dashed border-[#CBD8E8] rounded bg-white/80 p-4 flex flex-col justify-between min-h-[180px]">
-              <span className="text-[11px] uppercase tracking-wider text-[#64748B] font-medium">
-                Partner Rate Check
-              </span>
-              <div className="my-2">
-                <p className="font-display font-semibold text-sm text-[#0B1F3A]">
-                  {meta.label} · Card 3
-                </p>
-                <p className="text-xs text-[#4B5D75] mt-1">
-                  Responsive 3-column grid on desktop, single column on mobile (`min-height: 250px`).
-                </p>
-              </div>
-              <span className="text-xs font-medium text-[#0E9F6E]">Native Ad Container</span>
-            </div>
-          </div>
-        </div>
+        />
       </aside>
     );
   }
+
+  const srcDoc = buildBannerSrcDoc(meta);
 
   return (
     <aside
@@ -107,8 +112,7 @@ export function AdSlot({ format, slotId, className = '' }: AdSlotProps) {
     >
       <span className="ad-caption">Advertisement</span>
       <div
-        ref={commentHostRef}
-        className="ad-placeholder-box"
+        className="relative flex items-center justify-center rounded-md border border-[#E2E8F0] bg-[#F8FAFD] overflow-hidden"
         style={{
           minWidth: `${meta.minWidth}px`,
           width: `${meta.minWidth}px`,
@@ -117,12 +121,23 @@ export function AdSlot({ format, slotId, className = '' }: AdSlotProps) {
           maxWidth: '100%',
         }}
       >
-        <span className="font-mono-num text-[11px] font-semibold tracking-wider text-[#0B1F3A]">
-          {meta.label}
-        </span>
-        {meta.minHeight >= 90 && (
-          <span className="text-[11px] text-[#64748B] mt-1">
-            {meta.minWidth} × {meta.minHeight} · Zero-CLS Reserved Slot
+        {isBreakpointActive && srcDoc ? (
+          <iframe
+            title={`Adsterra ${format} Advertisement`}
+            srcDoc={srcDoc}
+            width={meta.minWidth}
+            height={meta.minHeight}
+            scrolling="no"
+            frameBorder="0"
+            className="border-0 block"
+            style={{
+              width: `${meta.minWidth}px`,
+              height: `${meta.minHeight}px`,
+            }}
+          />
+        ) : (
+          <span className="font-mono-num text-[11px] font-semibold tracking-wider text-[#64748B]">
+            {meta.label}
           </span>
         )}
       </div>

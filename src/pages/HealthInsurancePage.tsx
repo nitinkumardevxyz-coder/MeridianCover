@@ -205,6 +205,8 @@ export function HealthInsurancePage() {
         </div>
       </section>
 
+      <AdSlot format="468x60" slotId="health-hero-468x60" />
+
       {/* Comparison Table: Individual vs Family Floater vs Senior Citizen */}
       <section id="health-comparison" className="space-y-4">
         <div>
@@ -438,6 +440,8 @@ export function HealthInsurancePage() {
             />
           </div>
         </div>
+
+        <AdSlot format="300x250" slotId="health-pre-faq-300x250" />
 
         <div className="space-y-4">
           <h2 className="font-display text-2xl font-bold text-[#0B1F3A]">

@@ -4,15 +4,25 @@ import { getAdsterraSmartlinkUrl } from '../../config/adsConfig';
 interface SmartlinkButtonProps {
   label: string;
   variant?: 'primary' | 'secondary' | 'outline';
+  slotType?: 'primary' | 'secondary';
   className?: string;
 }
+
+const SECONDARY_LABELS = new Set([
+  'Check Claim Eligibility',
+  'Download Policy Checklist PDF',
+  'Unlock Best Rates',
+]);
 
 export function SmartlinkButton({
   label,
   variant = 'primary',
+  slotType,
   className = '',
 }: SmartlinkButtonProps) {
-  const href = getAdsterraSmartlinkUrl();
+  const resolvedSlot =
+    slotType || (SECONDARY_LABELS.has(label) ? 'secondary' : 'primary');
+  const href = getAdsterraSmartlinkUrl(resolvedSlot);
 
   const variantStyles =
     variant === 'primary'
@@ -27,6 +37,7 @@ export function SmartlinkButton({
       target="_blank"
       rel="noopener noreferrer"
       data-smartlink-cta="true"
+      data-smartlink-slot={resolvedSlot}
       className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0E9F6E] ${variantStyles} ${className}`}
     >
       <span>{label}</span>
