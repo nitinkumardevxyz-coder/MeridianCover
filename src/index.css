@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --color-navy: #0B1F3A;
+  --color-navy-deep: #071528;
+  --color-emerald: #0E9F6E;
+  --color-emerald-hover: #0B875D;
+  --color-white: #FFFFFF;
+  --color-slate-surface: #F4F7FB;
+  --color-border: #DDE5F0;
+  --color-text-muted: #4B5D75;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.font-mono-num {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Adsterra Zero-Overflow & Zero-CLS Wrapper */
+@layer components {
+  .ad-wrapper {
+    justify-content: center;
+    align-items: center;
+    margin: 24px auto;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+.ad-caption {
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: #64748B;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.ad-placeholder-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #B8C7DC;
+  background-color: #F8FAFD;
+  color: #4B5D75;
+  border-radius: 6px;
+  text-align: center;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

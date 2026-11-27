@@ -1,0 +1,6 @@
+{
+  "name": "MeridianCover Insurance & Protection Guide",
+  "description": "Comprehensive multi-page insurance comparison, coverage calculators, and editorial buyer guides across health, term life, motor, travel, and home protection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
